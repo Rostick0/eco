@@ -105,10 +105,6 @@ html, body {
     padding: 0 5%;
 }
 
-.wrapper {
-    background: #e3edfa;
-}
-
 
 
 
@@ -306,8 +302,10 @@ html, body {
     font-size: 13px;
 
     line-height: 1.55;
+}
 
-    margin-bottom: 18px;
+.article__img img {
+    margin-top: 18px;
 }
 
 
@@ -426,6 +424,8 @@ html, body {
 }
 
 .authorization__bottom_text {
+    text-align: center;
+
     margin-top: 14px;
 }
 

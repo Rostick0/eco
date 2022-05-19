@@ -127,8 +127,12 @@ function logPerson($data) {
         echo json_encode($message);
         return;
     } else {
-        echo json_encode(['messegae' => 'good']);
         $_SESSION['person'] = Authorization::getPerson($email);
+        echo json_encode([
+            'email' => "{$_SESSION['person']['email']}",
+            'session_token' => "{$_SESSION['person']['session_token']}",
+            'status' => 'true'
+        ]);
         return;
     }
 }
