@@ -1,6 +1,22 @@
 const headerButtons = document.querySelector('.header__buttons');
 
-if (headerButtons && localStorage.getItem('session') && localStorage.getItem('email')) {
+if (localStorage.getItem('session') && localStorage.getItem('email')) {
+    const dataSession = {
+        email: localStorage.getItem('email'),
+        session: localStorage.getItem('session')
+    };
+    fetch('http://eco/login', {
+            method: 'POST',
+            body: JSON.stringify(dataSession)
+        })
+        .then(res => res.json())
+        .then(res => {
+            if (res.status) {
+                localStorage.setItem('email', res.email)
+                localStorage.setItem('session', res.session_token)
+            }
+        })
+
     headerButtons.innerHTML = `<button class="header__button btn">Профиль</button>`; 
 }
 
@@ -10,7 +26,7 @@ function checkImg(img) {
     if (img) {
         return `
         <div class="article__img">
-            <img src="${ img }" alt="">
+            <img src="${ img }" loading="lazy" alt="">
         </div>`;
     }
     return '';
@@ -25,7 +41,7 @@ if (articles) {
                     `<article class="article">
                     <div class="article__top author-article">
                         <div class="author-article_avatar">
-                            <img src="img/standart_female.jpg" alt="">
+                            <img src="img/standart_female.jpg" loading="lazy" alt="">
                         </div> 
                         <div class="article__top_right">
                             <div class="author-article_username">
@@ -81,6 +97,8 @@ if (articles) {
 // </article>`
 }
 
+const authorizationSubtitle = document.querySelector('.authorization__subtitle');
+
 const logEmail = document.getElementById('logEmail');
 const logPassword = document.getElementById('logPassword');
 const logPerson = document.getElementById('logPerson');
@@ -88,19 +106,36 @@ const logPerson = document.getElementById('logPerson');
 if (logPerson) {
     logPerson.addEventListener('click', e => {
         e.preventDefault();
-        const data = {
+        const dataLog = {
             email: logEmail.value,
             password: logPassword.value
         };
 
+        const errors = [];
+
+        if (logEmail.value < 3) {
+            errors.push('Слишком короткий email');
+        }
+
+        if (logPassword.value < 8) {
+            errors.push('Неверный пароль');
+        }
+
+        if (errors[0]) {
+            authorizationSubtitle.style = `color: red; font-weight: 700`;
+            authorizationSubtitle.textContent = errors[0];
+            return;
+        }
+
         fetch('http://eco/login', {
             method: 'POST',
-            body: JSON.stringify(data)
+            body: JSON.stringify(dataLog)
         })
         .then(res => res.json())
         .then(res => {
-            console.log(res.status)
             if (res.status) {
+                authorizationSubtitle.style = `color: #0c7a31; font-weight: 700`;
+                authorizationSubtitle.textContent = `Вы успешно авторизовались`;
                 localStorage.setItem('email', res.email)
                 localStorage.setItem('session', res.session_token)
             }
@@ -113,10 +148,18 @@ const registrationPassword = document.getElementById('registrationPassword');
 const registrationLogin = document.getElementById('registrationLogin');
 const registrationButton = document.getElementById('registrationButton');
 
-const authorizationSubtitle = document.querySelector('.authorization__subtitle');
-
 if (registrationButton) {
+
     registrationButton.addEventListener('click', e => {
+        e.preventDefault();
+
+        const dataRegistration = {
+            email: registrationEmail.value,
+            login: registrationPassword.value,
+            password: registrationPassword.value
+    
+        };
+
         const errors = [];
         if (registrationEmail.value < 5) {
             errors.push('Слишком короткая почта');
@@ -135,5 +178,43 @@ if (registrationButton) {
             authorizationSubtitle.textContent = errors[0];
             return;
         }
+
+        fetch('http://eco/registration', {
+            method: 'POST',
+            body: JSON.stringify(dataRegistration)
+        })
+        .then(res => res.json())
+        .then(res => {
+            const resAuthorization = res;
+            if (res.status) {
+                const authorizationForm = document.querySelector('.authorization__form');
+
+                authorizationForm.innerHTML = `
+                            <div class="authorization__title">
+                                Регистрация
+                            </div>
+                            <div class="authorization__subtitle">
+                                Введите код из почты
+                            </div>
+                            <input class="authorzation__input" type="password" placeholder="Пароль" id="confirmCode">
+                            <button class="authorization__button btn" id="confirmRegistration">Подтвердить</button>
+                            `;
+                const confirmCode = document.getElementById('confirmCode');            
+                const confirmRegistration = document.getElementById('confirmRegistration');
+
+                if (confirmRegistration)
+
+                confirmRegistration.addEventListener('click', e => {
+                    e.preventDefault();
+
+                    then('http://eco/registration_email', {
+                        method: 'POST',
+                        body: JSON.stringify({...resAuthorization, email_token: confirmCode.value})
+                    })
+                    .then(res => res.json())
+                    .then(res => console.log(res))
+                })
+            }
+        })
     }) 
 }

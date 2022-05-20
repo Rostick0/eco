@@ -32,13 +32,17 @@ function startCreatePerson($data) {
         return;
     } else {
         $message = [
-            'message' => 'Ваш аккаунт успешно зарегистрирован'
+            'login' => $login,
+            'password' => $password,
+            'email' => $email,
+            'status' => 'true',
+            'message' => 'Подтвердите почту'
         ];
 
         sendMail($email ,'Регистрация');
 
-        echo json_encode([$login, $password, $email]);
         echo json_encode($message);
+        //echo json_encode($message);
         return;
     }
 }
@@ -53,12 +57,14 @@ function endCreatePerson($data) {
 
     if ($email != $_SESSION['email']) {
         $message = [
+            'status' => 'false',
             'message' => 'Не совпадает почта'
         ];
     }
 
     if ($email_token != $_SESSION['email_token']) {
         $message = [
+            'status' => 'true',
             'message' => 'Не совпадает код из почты'
         ];
     }
@@ -98,10 +104,23 @@ function logPerson($data) {
     $_SESSION['authorization_attempt'] += 1;
 
     $email = protectionData($data['email']);
+    $session = protectionData($data['sessuin']);
     $password = protectionData($data['password']);
-    $hash_password = Authorization::getPassword($email);
+
+    $person = Authorization::getPerson($email);
+    $hash_password = $person['password'];
 
     $message = [];
+
+    if ($person['email'] == $email && $person['session_token'] == $session) {
+        $_SESSION['person'] = Authorization::getPerson($email);
+        echo json_encode([
+            'email' => "{$_SESSION['person']['email']}",
+            'session_token' => "{$_SESSION['person']['session_token']}",
+            'status' => 'true'
+        ]);
+        return;
+    }
 
     if (!password_verify($password, $hash_password)) {
         $message = [

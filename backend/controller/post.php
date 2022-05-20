@@ -1,9 +1,5 @@
 <?php
-function getPosts($limit = null, $offset = null, $desc = false) {
-	$limit = (int) $limit;
-    $offset = (int) $offset;
-
-
+function getPosts($limit = null, $offset = null, $desc = false, $where_param = null) {
     if ($limit) {
         $limit = "LIMIT '$limit'";
     } else {
@@ -13,7 +9,7 @@ function getPosts($limit = null, $offset = null, $desc = false) {
     if ($offset) {
         $offset = "`post_id` > $offset";
     } else {
-        $offset = "1";
+        $offset = "";
     }
 
     if ($desc) {
@@ -21,8 +17,12 @@ function getPosts($limit = null, $offset = null, $desc = false) {
     } else {
 		$desc = '';
 	}
+
+	if ($where_param) {
+		$where_param = 'WHERE ' . $where_param;
+	}
     
-    $posts = Post::getPosts($limit, $offset, $desc);
+    $posts = Post::getPosts($limit, $offset, $desc, $where_param);
 
 	if (!$posts) {
 		http_response_code(404);

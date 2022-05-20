@@ -23,6 +23,16 @@ $id = (integer) $param[1];
 
 $limit = (int) $_GET['limit'];
 $offset = (int) $_GET['offset'];
+$desc = $_GET['desc'];
+
+$where_param = "";
+foreach ($_GET as $key => $value) {
+    if ($key != 'q' && $key != 'limit' && $key != 'offset' && $key != 'desc') {
+        $where_param .= "`" . protectionData($key) . "` = ". "'" . protectionData($value) . "'" ." AND ";
+    }
+}
+
+$where_param = mb_substr($where_param, 0, -5);
 
 switch ($server_method) {
     case 'GET':
@@ -31,7 +41,7 @@ switch ($server_method) {
                 if (!empty($id)) {
                     getPost($id);
                 } else {
-                    getPosts($limit = null, $offset = null, $desc = false);
+                    getPosts($limit, $offset, $desc, $where_param);
                 }
                 break;
         }

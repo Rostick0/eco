@@ -1,10 +1,10 @@
 <?
 
 class Post {
-    static public function getPosts($limit, $offset, $desc) {
+    static public function getPosts($limit, $offset, $desc, $where_param) {
         global $db_connect;
 
-        $query = mysqli_query($db_connect, "SELECT * FROM `post` WHERE $offset $desc $limit");
+        $query = mysqli_query($db_connect, "SELECT * FROM `post` $where_param $offset $desc $limit");
         $post_list = [];
         while ($post = mysqli_fetch_assoc($query)) {
             $post_list[] = $post;
