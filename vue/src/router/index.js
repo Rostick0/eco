@@ -2,6 +2,7 @@ import PageMain from '@/pages/PageMain.vue';
 import PageSetting from '@/pages/PageSetting.vue';
 import PageRegistration from '@/pages/PageRegistration.vue';
 import PageLogin from '@/pages/PageLogin';
+import PageUser from '@/pages/PageUser';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
@@ -20,6 +21,10 @@ const routes = [
     {
         path: '/login',
         component: PageLogin
+    },
+    {
+        path: '/user/:id',
+        component: PageUser
     }
 ];
 

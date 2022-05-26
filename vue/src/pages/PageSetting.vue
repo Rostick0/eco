@@ -1,57 +1,27 @@
 <template>
-<aside class="aside">
-                        <div class="block__fantom">.</div>
-                        <nav class="aside__nav">
-                            <ul class="aside__navigation">
-                                <li class="aside__navigation_item">
-                                    <router-link to="/">
-                                        <div class="aside__icon">
-                                            <img src="@/img/blog_icon.png" alt="">
-                                        </div>
-                                        <div class="aside__href">
-                                            <button class="btn" href="">
-                                                Блоги
-                                            </button>
-                                        </div>
-                                    </router-link>
-                                </li>
-                                <li class="aside__navigation_item">
-                                    <router-link to="/setting">
-                                        <div class="aside__icon">
-                                            <img src="@/img/settings_icon.png" alt="">
-                                        </div>
-                                        <div class="aside__href">
-                                            <button class="btn" href="setting.html">
-                                                Настройки
-                                            </button>
-                                        </div>
-                                    </router-link>
-                                </li>
-                            </ul>
-                        </nav>
-                    </aside>
+    <EcoAside />
 
-<div class="main__content">
-                        <form class="setting" action="#">
-                            <div class="setting_grid">
-                                <div class="setting_login">
-                                    <label class="setting__label" for="personLogin">Имя пользователя</label>
-                                    <input class="setting__input" type="text" value="Имя" id="personLogin">
-                                </div>
-                                <div class="setting__email">
-                                    <label class="setting__label" for="personEmail">Электронная почта</label>
-                                    <input class="setting__input" type="email" value="email@email.com" id="personEmail">
-                                </div>
-                                <div class="setting__password">
-                                    <label class="setting__label" for="personPassword">Пароль</label>
-                                    <input class="setting__input" type="password" value="Пароль" id="personPassword">
-                                </div>
-                            </div>
-                            <button class="setting__save btn">
-                                Сохранить изменения
-                            </button>
-                        </form>
-                    </div>
+    <div class="main__content">
+        <form class="setting" action="#">
+            <div class="setting_grid">
+                <div class="setting_login">
+                    <label class="setting__label" for="personLogin">Имя пользователя</label>
+                    <input class="setting__input" type="text" value="Имя" id="personLogin">
+                </div>
+                <div class="setting__email">
+                    <label class="setting__label" for="personEmail">Электронная почта</label>
+                    <input class="setting__input" type="email" value="email@email.com" id="personEmail">
+                </div>
+                <div class="setting__password">
+                    <label class="setting__label" for="personPassword">Пароль</label>
+                    <input class="setting__input" type="password" value="Пароль" id="personPassword">
+                </div>
+            </div>
+            <button class="setting__save btn">
+                Сохранить изменения
+            </button>
+        </form>
+    </div>
 </template>
 
 <script>

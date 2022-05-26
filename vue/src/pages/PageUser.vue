@@ -8,11 +8,60 @@
 
 <script>
 export default {
-    name: 'PageMain'
+    name: 'PageUser'
 }
 </script>
 
 <style>
+.aside__navigation {
+    position: fixed;
+}
+
+.block__fantom {
+    width: 227px;
+    margin-right: 24px;
+    height: 0;
+    opacity: 0;
+}
+
+.aside__navigation_item a {
+    background: #e3edfa;
+
+    box-shadow: 2px 3px 5px 1px rgba(20, 20, 20, 0.3);
+
+    cursor: pointer;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 12px;
+
+    width: 227px;
+    height: 40px;
+}
+
+.aside__icon {
+    margin-right: 10px;
+}
+
+.aside__icon img {
+    width: 30px;
+    height: 30px;
+}
+
+.aside__href button {
+    width: 161px;
+    height: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
 .article {
     background: rgba(198, 201, 204, 0.4);
 
